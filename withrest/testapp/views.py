@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 # Create your views here.
+
 @method_decorator(csrf_exempt, name='dispatch')
 class EmployeeCRUDCBView(View):
     def get(self,request, *args,**kwargs):
@@ -26,6 +27,7 @@ class EmployeeCRUDCBView(View):
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='application/json')
     # Post Operations
+
     def post(self,request, *args,**kwargs):
         json_data = request.body
         stream = io.BytesIO(json_data)
@@ -38,7 +40,9 @@ class EmployeeCRUDCBView(View):
             return HttpResponse(json_data, content_type='application/json')
         json_data = JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data, content_type='application/json')
+
     #update Operations
+
     def put(self, request, *args,**kwargs):
         json_data = request.body
         stream = io.BytesIO(json_data)
@@ -53,7 +57,9 @@ class EmployeeCRUDCBView(View):
             return HttpResponse(json_data, content_type='application/json')
         json_data = JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data, content_type='application/json')
+
     #Delete Operations
+
     def delete(self, request, *args, **kwargs):
         json_data = request.body
         stream = io.BytesIO(json_data)

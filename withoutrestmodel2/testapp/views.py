@@ -8,6 +8,7 @@ from testapp.forms import StudentForm
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 # Create your views here.
+
 @method_decorator(csrf_exempt, name='dispatch')
 class StudentCRUDView(HttpResponseMixin,SerializeMixin,View):
     def get_object_by_id(self,id):
@@ -17,6 +18,7 @@ class StudentCRUDView(HttpResponseMixin,SerializeMixin,View):
             stu = None
         return stu
 # Get Operations
+
     def get(self, request,*args,**kwargs):
         data = request.body
         valid_json= is_json(data)
@@ -36,6 +38,7 @@ class StudentCRUDView(HttpResponseMixin,SerializeMixin,View):
         json_data = self.serialize(qs)
         return self.render_to_http_response(json_data)
 # Post Operations
+
     def post(self, request, *args,**kwargs):
         data = request.body
         valid_json= is_json(data)
@@ -52,6 +55,7 @@ class StudentCRUDView(HttpResponseMixin,SerializeMixin,View):
             json_data = json.dumps(form.errors)
             return self.render_to_http_response(json_data)
 # Update Operations
+
     def put(self,request, *args,**kwargs):
         data = request.body
         valid_json= is_json(data)
@@ -84,6 +88,7 @@ class StudentCRUDView(HttpResponseMixin,SerializeMixin,View):
             json_data = json.dumps(form.errors)
             return self.render_to_http_response(json_data)
 # Delete Operations
+
     def delete(self, request, *args,**kwargs):
         data = request.body
         valid_json= is_json(data)

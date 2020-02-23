@@ -1,19 +1,35 @@
 from rest_framework import serializers
-from testapp.models import Employee
-
-def multiple_of_1000(value):
-    if value %1000 != 0:
-        raise serializers.ValidationError("Salary shoud be Multiple of 1000")
-    return value
+from webapp.models import Template
 
 
-class EmployeeSerializers(serializers.ModelSerializer):
-    esal = serializers.FloatField(validators=[multiple_of_1000])
-    class Meta:
-        model = Employee
-        fields ="__all__"
+class TemplateSerializers(serializers.Serializer):
+    # class Meta:
+    #     model = Template
+    #     fields = '__all__'
 
-# class EmployeeSerializers(serializers.Serializer):
+    template_name = serializers.CharField(max_length=100)
+    delimeter = serializers.CharField(max_length=100)
+    encode = serializers.CharField(max_length=100)
+    catagory = serializers.CharField(max_length=100)
+    sub_catagory = serializers.CharField(max_length=100)
+
+
+    def create(self, validated_data):
+        return Template.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.template_name = validated_data.get('template_name', instance.template_name)
+        instance.delimeter = validated_data.get('delimeter', instance.delimeter)
+        instance.encode = validated_data.get('encode', instance.encode)
+        instance.catagory = validated_data.get('catagory', instance.catagory)
+        instance.sub_catagory = validated_data.get('sub_catagory', instance.sub_catagory)
+        instance.save()
+        return instance
+
+
+
+
+    # class EmployeeSerializers(serializers.Serializer):
 #     eno = serializers.IntegerField()
 #     ename = serializers.CharField(max_length=60)
 #     esal = serializers.FloatField(validators=[multiple_of_1000])
